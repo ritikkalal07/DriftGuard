@@ -1,0 +1,34 @@
+{
+  "name": "driftguard-backend",
+  "version": "1.0.0",
+  "description": "DriftGuard Backend - AI Documentation Drift Detector API",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node scripts/seed.js"
+  },
+  "keywords": [
+    "documentation",
+    "drift",
+    "ai",
+    "developer-tools"
+  ],
+  "author": "DriftGuard Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "@supabase/supabase-js": "^2.39.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "express-validator": "^7.0.1",
+    "diff-parser": "^0.0.16",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "driftguard",
+  "version": "1.0.0",
+  "description": "AI Documentation Drift Detector for Developers",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm install && npm run build",
+    "build:backend": "cd backend && npm install",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "seed": "cd backend && node scripts/seed.js",
+    "vercel-build": "cd frontend && npm install && npm run build"
+  },
+  "keywords": [
+    "documentation",
+    "drift-detection",
+    "ai",
+    "developer-tools",
+    "code-analysis"
+  ],
+  "author": "DriftGuard Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
