@@ -2,7 +2,7 @@ import express from 'express';
 import {
   getReports,
   getReport,
-  updateReportStatus,
+  updateReport as updateReportStatus,
   getReportSuggestions,
   exportReport
 } from '../controllers/reportController.js';

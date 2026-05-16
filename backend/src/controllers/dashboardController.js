@@ -189,3 +189,33 @@ export const getCharts = async (req, res, next) => {
 };
 
 // Made with Bob
+
+/**
+ * Get projects health summary
+ * GET /api/dashboard/projects-health
+ */
+export const getProjectsHealth = async (req, res, next) => {
+  try {
+    const { data: projects } = await supabase
+      .from('projects')
+      .select('id, name')
+      .eq('user_id', req.user.id);
+
+    const results = [];
+
+    for (const p of projects || []) {
+      const { data: reports } = await supabase
+        .from('drift_reports')
+        .select('id, drift_status')
+        .eq('project_id', p.id);
+
+      const highDriftCount = (reports || []).filter(r => r.drift_status === 'high_drift').length;
+
+      results.push({ projectId: p.id, projectName: p.name, highDriftCount });
+    }
+
+    res.json({ success: true, data: { projects: results } });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -1,8 +1,8 @@
 import express from 'express';
 import {
-  createScan,
-  getScan,
-  getScans,
+  createNewScan as createScan,
+  getScan as getScan,
+  getAllScans as getScans,
   getScanReports,
   deleteScan
 } from '../controllers/scanController.js';

@@ -183,4 +183,24 @@ export const getSuggestionsByReport = async (req, res, next) => {
   }
 };
 
+  /**
+   * Export a suggestion (returns JSON attachment)
+   * GET /api/suggestions/:id/export
+   */
+  export const exportSuggestion = async (req, res, next) => {
+    try {
+      const suggestion = await getSuggestionById(req.params.id);
+
+      if (!suggestion) {
+        return res.status(404).json({ success: false, message: 'Suggestion not found' });
+      }
+
+      const filename = `suggestion-${suggestion.id}.json`;
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.json(suggestion);
+    } catch (error) {
+      next(error);
+    }
+  };
+
 // Made with Bob

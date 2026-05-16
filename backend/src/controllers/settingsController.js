@@ -1,4 +1,5 @@
 import { getUserSettings, createOrUpdateSettings } from '../utils/supabaseHelpers.js';
+import aiService from '../services/ai/AIService.js';
 
 /**
  * Get user settings
@@ -96,3 +97,42 @@ export const resetSettings = async (req, res, next) => {
 };
 
 // Made with Bob
+
+/**
+ * Get AI provider info
+ * GET /api/settings/ai-provider
+ */
+export const getAIProviderInfo = async (req, res, next) => {
+  try {
+    const info = aiService.getProviderInfo();
+    res.json({ success: true, data: { provider: info } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Test AI provider connectivity/functionality
+ * POST /api/settings/test-ai
+ */
+export const testAIProvider = async (req, res, next) => {
+  try {
+    // For now, perform a lightweight provider check
+    const info = aiService.getProviderInfo();
+    if (!info.isReady) {
+      return res.status(500).json({ success: false, message: 'AI provider not ready' });
+    }
+
+    // Optionally run a mock summary call to verify runtime
+    try {
+      await aiService.summarizeScan({ totalReports: 0, highDrift: 0, possibleDrift: 0, missingDocs: 0, noDrift: 0 });
+    } catch (e) {
+      // If provider fails, report error
+      return res.status(500).json({ success: false, message: 'AI provider test failed', error: e.message });
+    }
+
+    res.json({ success: true, message: 'AI provider is available', data: { provider: info } });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -189,4 +189,24 @@ export const getReportsByProject = async (req, res, next) => {
   }
 };
 
+  /**
+   * Export a report (returns JSON attachment)
+   * GET /api/reports/:id/export
+   */
+  export const exportReport = async (req, res, next) => {
+    try {
+      const report = await getDriftReportById(req.params.id);
+
+      if (!report) {
+        return res.status(404).json({ success: false, message: 'Report not found' });
+      }
+
+      const filename = `report-${report.id}.json`;
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.json(report);
+    } catch (error) {
+      next(error);
+    }
+  };
+
 // Made with Bob

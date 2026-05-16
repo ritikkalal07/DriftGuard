@@ -1,8 +1,8 @@
 import express from 'express';
 import {
-  getDashboardStats,
+  getDashboard as getDashboardStats,
   getActivity,
-  getTrends,
+  getCharts as getTrends,
   getProjectsHealth
 } from '../controllers/dashboardController.js';
 import { protect } from '../middleware/auth.js';
