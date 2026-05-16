@@ -1,0 +1,8 @@
+{
+  "name": "driftguard-api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "DriftGuard API serverless functions",
+  "main": "index.js",
+  "private": true
+}

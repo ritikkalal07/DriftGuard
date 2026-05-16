@@ -47,3 +47,8 @@ docs/
 # Misc
 coverage
 .nyc_output
+
+# Keep api directory for serverless functions
+!api/
+!api/index.js
+!api/package.json

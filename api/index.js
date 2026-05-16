@@ -1,6 +1,8 @@
 // Vercel Serverless Function Entry Point
-const app = require('../backend/src/server');
+// This file bridges the serverless environment with the Express app
 
-module.exports = app;
+import app from '../backend/src/server.js';
+
+export default app;
 
 // Made with Bob
