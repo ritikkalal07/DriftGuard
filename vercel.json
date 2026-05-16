@@ -15,7 +15,8 @@
         "routePrefix": "/_/backend",
         "framework": "node",
         "installCommand": "npm install",
-        "buildCommand": "npm install"
+        "buildCommand": "npm install",
+        "startCommand": "npm run start"
       }
     }
   },
