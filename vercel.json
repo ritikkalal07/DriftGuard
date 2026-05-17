@@ -5,7 +5,7 @@
       "src": "api/index.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["backend/**", "!backend/node_modules", "!backend/node_modules/**"]
+        "includeFiles": ["backend/**", "!backend/node_modules", "!backend/node_modules/**", "!.env*", ".env.example"]
       }
     },
     {
@@ -13,17 +13,11 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "frontend/dist"
-      },
-      "env": {
-        "VITE_API_URL": "https://driftguardai.vercel.app/api"
       }
     }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/index.js" },
     { "src": "/(.*)", "dest": "/index.html" }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
