@@ -22,8 +22,8 @@ export const getScanById = async (scanId, userId) => {
     .select('*')
     .eq('id', scanId)
     .eq('user_id', userId)
-    .single();
-  
+    .maybeSingle();
+
   if (error) throw error;
   return data;
 };
@@ -81,8 +81,8 @@ export const getDriftReportById = async (reportId) => {
     .from('drift_reports')
     .select('*')
     .eq('id', reportId)
-    .single();
-  
+    .maybeSingle();
+
   if (error) throw error;
   return data;
 };
@@ -143,8 +143,8 @@ export const getSuggestionById = async (suggestionId) => {
     .from('suggestions')
     .select('*')
     .eq('id', suggestionId)
-    .single();
-  
+    .maybeSingle();
+
   if (error) throw error;
   return data;
 };

@@ -27,16 +27,22 @@ export const getProjects = async (req, res, next) => {
  * Get single project by ID
  * GET /api/projects/:id
  */
-export const getProject = async (req, res, next) => {
+  const getProject = async (req, res, next) => {
   try {
-    const { data: project, error } = await supabase
-      .from('projects')
-      .select('*')
-      .eq('id', req.params.id)
-      .eq('user_id', req.user.id)
-      .single();
+    let project;
+    try {
+      const result = await supabase
+        .from('projects')
+        .select('*')
+        .eq('id', req.params.id)
+        .eq('user_id', req.user.id)
+        .single();
+      project = result.data;
+    } catch (findErr) {
+      // .single() throws on no rows
+    }
 
-    if (error || !project) {
+    if (!project) {
       return res.status(404).json({
         success: false,
         message: 'Project not found'
@@ -169,12 +175,18 @@ export const updateProject = async (req, res, next) => {
 export const deleteProject = async (req, res, next) => {
   try {
     // Check if project exists and belongs to user
-    const { data: project } = await supabase
-      .from('projects')
-      .select('id')
-      .eq('id', req.params.id)
-      .eq('user_id', req.user.id)
-      .single();
+    let project;
+    try {
+      const result = await supabase
+        .from('projects')
+        .select('id')
+        .eq('id', req.params.id)
+        .eq('user_id', req.user.id)
+        .single();
+      project = result.data;
+    } catch (findErr) {
+      // .single() throws on no rows
+    }
 
     if (!project) {
       return res.status(404).json({
@@ -208,12 +220,18 @@ export const deleteProject = async (req, res, next) => {
 export const getProjectScans = async (req, res, next) => {
   try {
     // Check if project exists and belongs to user
-    const { data: project } = await supabase
-      .from('projects')
-      .select('id')
-      .eq('id', req.params.id)
-      .eq('user_id', req.user.id)
-      .single();
+    let project;
+    try {
+      const result = await supabase
+        .from('projects')
+        .select('id')
+        .eq('id', req.params.id)
+        .eq('user_id', req.user.id)
+        .single();
+      project = result.data;
+    } catch (findErr) {
+      // .single() throws on no rows
+    }
 
     if (!project) {
       return res.status(404).json({

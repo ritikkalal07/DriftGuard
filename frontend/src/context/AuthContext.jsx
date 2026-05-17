@@ -2,12 +2,16 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { authAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
+/**
+ * Auth Context – provides login / signup / logout and session state
+ * to every route in the application.
+ */
 const AuthContext = createContext(null);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
@@ -17,8 +21,10 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  /* ── restore session on mount ─────────────────────────────────── */
   useEffect(() => {
     checkAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkAuth = async () => {
@@ -29,18 +35,22 @@ export const AuthProvider = ({ children }) => {
       try {
         setUser(JSON.parse(savedUser));
         setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Error parsing saved user:', error);
-        logout();
+      } catch (_err) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
+        setIsAuthenticated(false);
       }
     }
     setLoading(false);
   };
 
+  /* ── login ─────────────────────────────────────────────────────── */
   const login = async (email, password) => {
+    setLoading(true);
     try {
       const response = await authAPI.login({ email, password });
-      
+
       if (response.success) {
         const { user, token } = response.data;
         localStorage.setItem('token', token);
@@ -55,16 +65,22 @@ export const AuthProvider = ({ children }) => {
       toast.error(message);
       return { success: false, error: message };
     } catch (error) {
-      const message = typeof error === 'string' ? error : (error?.message || error?.data?.message || 'Login failed');
+      const message = typeof error === 'string'
+        ? error
+        : (error?.message || error?.data?.message || 'Login failed');
       toast.error(message);
       return { success: false, error: message };
+    } finally {
+      setLoading(false);
     }
   };
 
+  /* ── signup ────────────────────────────────────────────────────── */
   const signup = async (name, email, password) => {
+    setLoading(true);
     try {
       const response = await authAPI.signup({ name, email, password });
-      
+
       if (response.success) {
         const { user, token } = response.data;
         localStorage.setItem('token', token);
@@ -75,12 +91,17 @@ export const AuthProvider = ({ children }) => {
         return { success: true };
       }
     } catch (error) {
-      const message = typeof error === 'string' ? error : (error?.message || error?.data?.message || 'Signup failed');
+      const message = typeof error === 'string'
+        ? error
+        : (error?.message || error?.data?.message || 'Signup failed');
       toast.error(message);
       return { success: false, error: message };
+    } finally {
+      setLoading(false);
     }
   };
 
+  /* ── logout ────────────────────────────────────────────────────── */
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -89,6 +110,7 @@ export const AuthProvider = ({ children }) => {
     toast.success('Logged out successfully');
   };
 
+  /* ── context value ─────────────────────────────────────────────── */
   const value = {
     user,
     loading,
@@ -98,7 +120,9 @@ export const AuthProvider = ({ children }) => {
     logout,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-// Made with Bob

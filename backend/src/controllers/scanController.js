@@ -78,12 +78,18 @@ export const createNewScan = async (req, res, next) => {
     }
 
     // Verify project belongs to user
-    const { data: project } = await supabase
-      .from('projects')
-      .select('id')
-      .eq('id', projectId)
-      .eq('user_id', req.user.id)
-      .single();
+    let project;
+    try {
+      const result = await supabase
+        .from('projects')
+        .select('id')
+        .eq('id', projectId)
+        .eq('user_id', req.user.id)
+        .single();
+      project = result.data;
+    } catch (findErr) {
+      // .single() throws when no rows match
+    }
 
     if (!project) {
       return res.status(404).json({
