@@ -90,6 +90,10 @@ export const AuthProvider = ({ children }) => {
         toast.success('Account created successfully!');
         return { success: true };
       }
+
+      const signupMessage = response?.message || 'Signup failed';
+      toast.error(signupMessage);
+      return { success: false, error: signupMessage };
     } catch (error) {
       const message = typeof error === 'string'
         ? error
