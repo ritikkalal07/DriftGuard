@@ -7,11 +7,10 @@ frontend/node_modules/
 
 # Testing
 coverage/
-.nyc_output/
+/.nyc_output/
 
 # Production builds
 build/
-dist/
 backend/dist/
 frontend/dist/
 
