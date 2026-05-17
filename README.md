@@ -439,6 +439,26 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Inspired by the need for better documentation practices
 - Designed for hackathons and real-world use
 
+### 🤖 AI-Assisted Development
+
+This project was developed with significant assistance from **IBM Bob**, an AI-powered software engineering assistant. IBM Bob contributed to:
+
+- **System Architecture & Design** - Full-stack architecture planning and technology selection
+- **Backend Development** - Complete Express API, database schema, authentication, and business logic
+- **Frontend Development** - React application, UI components, routing, and state management
+- **AI Service Layer** - Modular AI provider architecture with mock implementation
+- **Drift Detection Engine** - Core algorithms for detecting documentation drift
+- **Database Design** - PostgreSQL schema with Row Level Security and optimization
+- **API Design** - RESTful endpoints following industry best practices
+- **Deployment Configuration** - Vercel serverless setup and optimization
+- **Comprehensive Documentation** - Setup guides, deployment instructions, and testing procedures
+
+**📄 Detailed Contributions:** See [IBM_BOB_CONTRIBUTIONS.md](./IBM_BOB_CONTRIBUTIONS.md) for a complete breakdown of IBM Bob's contributions to this project.
+
+**📊 Session Report:** See [IBM_BOB_REPORT.md](./IBM_BOB_REPORT.md) for exported session logs and task history.
+
+The collaboration between human developer and AI assistant enabled rapid development of a production-ready, scalable application with industry-standard practices and comprehensive documentation.
+
 ---
 
 ## 📞 Support
