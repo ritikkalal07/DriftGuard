@@ -11,7 +11,7 @@
     "build:backend": "cd backend && npm install",
     "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
     "seed": "cd backend && node scripts/seed.js",
-    "vercel-build": "cd frontend && npm install && npm run build"
+    "vercel-build": "cd frontend && npm install --include=dev && npm run build"
   },
   "keywords": [
     "documentation",
