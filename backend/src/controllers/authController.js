@@ -23,7 +23,7 @@ export const signup = async (req, res, next) => {
       .from('users')
       .select('id')
       .eq('email', email)
-      .single();
+      .maybeSingle();
 
     if (existingUser) {
       return res.status(400).json({
@@ -162,13 +162,19 @@ export const login = async (req, res, next) => {
  */
 export const getCurrentUser = async (req, res, next) => {
   try {
-    const { data: user, error } = await supabase
-      .from('users')
-      .select('id, email, name, created_at')
-      .eq('id', req.user.id)
-      .single();
+    let user;
+    try {
+      const result = await supabase
+        .from('users')
+        .select('id, email, name, created_at')
+        .eq('id', req.user.id)
+        .maybeSingle();
+      user = result.data;
+    } catch (_findErr) {
+      // .maybeSingle() returns null instead of throwing on no rows
+    }
 
-    if (error || !user) {
+    if (!user) {
       return res.status(404).json({
         success: false,
         message: 'User not found'

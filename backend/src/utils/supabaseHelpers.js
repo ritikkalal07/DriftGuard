@@ -34,7 +34,7 @@ export const updateScan = async (scanId, updates) => {
     .update(updates)
     .eq('id', scanId)
     .select()
-    .single();
+    .maybeSingle();
   
   if (error) throw error;
   return data;
@@ -120,7 +120,7 @@ export const updateDriftReport = async (reportId, updates) => {
     .update(updates)
     .eq('id', reportId)
     .select()
-    .single();
+    .maybeSingle();
   
   if (error) throw error;
   return data;
@@ -172,7 +172,7 @@ export const updateSuggestion = async (suggestionId, updates) => {
     .update(updates)
     .eq('id', suggestionId)
     .select()
-    .single();
+    .maybeSingle();
   
   if (error) throw error;
   return data;
@@ -184,9 +184,9 @@ export const getUserSettings = async (userId) => {
     .from('settings')
     .select('*')
     .eq('user_id', userId)
-    .single();
+    .maybeSingle();
   
-    if (error && (error.code === 'PGRST116' || error.code === '42P01')) return null;
+  if (error && (error.code === 'PGRST116' || error.code === '42P01')) return null;
   return data;
 };
 

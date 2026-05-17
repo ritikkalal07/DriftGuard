@@ -33,13 +33,13 @@ export const getProjects = async (req, res, next) => {
     try {
       const result = await supabase
         .from('projects')
-        .select('*')
+        .select('id')
         .eq('id', req.params.id)
         .eq('user_id', req.user.id)
-        .single();
+        .maybeSingle();
       project = result.data;
     } catch (findErr) {
-      // .single() throws on no rows
+      // maybeSingle returns null instead of throwing on no rows; catch covers unexpected errors
     }
 
     if (!project) {
@@ -131,7 +131,7 @@ export const updateProject = async (req, res, next) => {
       .select('id')
       .eq('id', req.params.id)
       .eq('user_id', req.user.id)
-      .single();
+      .maybeSingle();
 
     if (!existingProject) {
       return res.status(404).json({
@@ -182,10 +182,10 @@ export const deleteProject = async (req, res, next) => {
         .select('id')
         .eq('id', req.params.id)
         .eq('user_id', req.user.id)
-        .single();
+        .maybeSingle();
       project = result.data;
     } catch (findErr) {
-      // .single() throws on no rows
+      // maybeSingle returns null instead of throwing on no rows; catch covers unexpected errors
     }
 
     if (!project) {
@@ -227,10 +227,10 @@ export const getProjectScans = async (req, res, next) => {
         .select('id')
         .eq('id', req.params.id)
         .eq('user_id', req.user.id)
-        .single();
+        .maybeSingle();
       project = result.data;
     } catch (findErr) {
-      // .single() throws on no rows
+      // maybeSingle returns null instead of throwing on no rows; catch covers unexpected errors
     }
 
     if (!project) {

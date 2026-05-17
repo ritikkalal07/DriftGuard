@@ -23,13 +23,19 @@ export const authenticate = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Get user from database
-    const { data: user, error } = await supabase
-      .from('users')
-      .select('id, email, name, created_at')
-      .eq('id', decoded.id)
-      .single();
+    let user;
+    try {
+      const result = await supabase
+        .from('users')
+        .select('id, email, name, created_at')
+        .eq('id', decoded.id)
+        .maybeSingle();
+      user = result.data;
+    } catch (_findErr) {
+      // .maybeSingle() returns null instead of throwing; catch covers unexpected errors too
+    }
 
-    if (error || !user) {
+    if (!user) {
       return res.status(401).json({
         success: false,
         message: 'Invalid token'
