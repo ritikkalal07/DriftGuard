@@ -224,7 +224,7 @@ CREATE POLICY "Users can update own settings" ON settings
 
 -- Insert demo user (password: demo123, hashed with bcrypt)
 INSERT INTO users (id, name, email, password) VALUES
-  ('550e8400-e29b-41d4-a716-446655440000', 'Demo User', 'demo@driftguard.dev', '$2a$10$rKZLvXZvXZvXZvXZvXZvXeO7qKZLvXZvXZvXZvXZvXZvXZvXZvXZv')
+  ('550e8400-e29b-41d4-a716-446655440000', 'Demo User', 'demo@driftguard.dev', '$2a$10$LZ27Irjn66yQkknkv.SzC./Y5AB35kHPwi4vr8ql8./aDe5NI8.I2')
 ON CONFLICT (email) DO NOTHING;
 
 -- Success message

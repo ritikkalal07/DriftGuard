@@ -3,8 +3,10 @@ import {
   getReports,
   getReport,
   updateReport as updateReportStatus,
+  deleteReport,
   getReportSuggestions,
-  exportReport
+  exportReport,
+  getReportsByProject
 } from '../controllers/reportController.js';
 import { protect } from '../middleware/auth.js';
 
@@ -14,11 +16,14 @@ const router = express.Router();
 router.use(protect);
 
 router.get('/', getReports);
+router.get('/project/:projectId', getReportsByProject);
 
 router.route('/:id')
-  .get(getReport);
+  .get(getReport)
+  .delete(deleteReport);
 
-router.put('/:id/status', updateReportStatus);
+router.patch('/:id', updateReportStatus);
+router.patch('/:id/status', updateReportStatus);
 router.get('/:id/suggestions', getReportSuggestions);
 router.get('/:id/export', exportReport);
 

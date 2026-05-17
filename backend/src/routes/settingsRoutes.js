@@ -2,6 +2,7 @@ import express from 'express';
 import {
   getSettings,
   updateSettings,
+  resetSettings,
   getAIProviderInfo,
   testAIProvider
 } from '../controllers/settingsController.js';
@@ -16,6 +17,7 @@ router.route('/')
   .get(getSettings)
   .put(updateSettings);
 
+router.post('/reset', resetSettings);
 router.get('/ai-provider', getAIProviderInfo);
 router.post('/test-ai', testAIProvider);
 

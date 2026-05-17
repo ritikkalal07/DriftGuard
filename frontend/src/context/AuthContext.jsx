@@ -50,8 +50,12 @@ export const AuthProvider = ({ children }) => {
         toast.success('Login successful!');
         return { success: true };
       }
+
+      const message = response?.message || 'Login failed';
+      toast.error(message);
+      return { success: false, error: message };
     } catch (error) {
-      const message = error.message || 'Login failed';
+      const message = error?.message || error?.data?.message || 'Login failed';
       toast.error(message);
       return { success: false, error: message };
     }

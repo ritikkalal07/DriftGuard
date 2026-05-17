@@ -52,3 +52,6 @@ coverage
 !api/
 !api/index.js
 !api/package.json
+
+# Keep frontend for build
+!frontend/dist
