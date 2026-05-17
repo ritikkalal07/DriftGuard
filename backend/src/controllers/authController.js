@@ -50,18 +50,20 @@ export const signup = async (req, res, next) => {
 
     if (userError) throw userError;
 
-    // Create default settings for user
-    await supabase
-      .from('settings')
-      .insert([
-        {
+    // Create default settings for user (non-fatal)
+    try {
+      await supabase
+        .from('settings')
+        .insert([{
           user_id: user.id,
           ai_provider: 'mock',
           drift_sensitivity: 'medium',
           auto_scan_enabled: false,
           notification_enabled: true
-        }
-      ]);
+        }]);
+    } catch (settingsError) {
+      console.warn('Could not create default settings for new user:', settingsError.message);
+    }
 
     // Generate token
     const token = generateToken({ id: user.id, email: user.email });
@@ -101,13 +103,23 @@ export const login = async (req, res, next) => {
     }
 
     // Find user
-    const { data: user, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .single();
+    let user;
+    try {
+      const result = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', email)
+        .single();
+      user = result.data;
+    } catch (findErr) {
+      // .single() throws if no rows or >1 row
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials'
+      });
+    }
 
-    if (error || !user) {
+    if (!user) {
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'

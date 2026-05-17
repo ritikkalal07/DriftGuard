@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
       toast.error(message);
       return { success: false, error: message };
     } catch (error) {
-      const message = error?.message || error?.data?.message || 'Login failed';
+      const message = typeof error === 'string' ? error : (error?.message || error?.data?.message || 'Login failed');
       toast.error(message);
       return { success: false, error: message };
     }
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }) => {
         return { success: true };
       }
     } catch (error) {
-      const message = error.message || 'Signup failed';
+      const message = typeof error === 'string' ? error : (error?.message || error?.data?.message || 'Signup failed');
       toast.error(message);
       return { success: false, error: message };
     }

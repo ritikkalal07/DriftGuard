@@ -186,7 +186,7 @@ export const getUserSettings = async (userId) => {
     .eq('user_id', userId)
     .single();
   
-  if (error && error.code !== 'PGRST116') throw error; // PGRST116 = no rows
+    if (error && (error.code === 'PGRST116' || error.code === '42P01')) return null;
   return data;
 };
 

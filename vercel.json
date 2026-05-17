@@ -5,14 +5,15 @@
       "src": "api/index.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["backend/**", "!backend/node_modules", "!backend/node_modules/**", "!.env*", ".env.example"]
+        "includeFiles": ["backend/**", "!backend/node_modules", "!backend/node_modules/**", "frontend/.env"]
       }
     },
     {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend/dist"
+        "distDir": "frontend/dist",
+        "buildCommand": "npm run vercel-build"
       }
     }
   ],
