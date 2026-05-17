@@ -27,7 +27,7 @@ export const getProjects = async (req, res, next) => {
  * Get single project by ID
  * GET /api/projects/:id
  */
-  const getProject = async (req, res, next) => {
+export const getProject = async (req, res, next) => {
   try {
     let project;
     try {

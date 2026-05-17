@@ -42,7 +42,7 @@ app.get('/api/health', (req, res) => {
     message: 'DriftGuard API is running',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    database: 'Supabase PostgreSQL'
+    database: 'Supabase'
   });
 });
 
@@ -61,7 +61,7 @@ app.get('/api', (req, res) => {
     success: true,
     message: 'Welcome to DriftGuard API',
     version: '1.0.0',
-    database: 'Supabase PostgreSQL',
+    database: 'Supabase',
     endpoints: {
       health: '/api/health',
       auth: '/api/auth',
@@ -93,7 +93,7 @@ if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`Database: Supabase PostgreSQL`);
+    console.log(`Database: Supabase`);
   });
 }
 

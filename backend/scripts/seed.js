@@ -1,11 +1,11 @@
 /**
  * Database Seed Script
- * Seeds the database with a demo user for testing.
+ * Seeds the Supabase database with a demo user for testing.
  * Run: npm run seed
  *
  * Prerequisites:
- *   - Supabase database schema must already be applied (run schema.sql in Supabase SQL editor)
- *   - SUPABASE_URL and SUPABASE_SERVICE_KEY must be set in .env
+ *   - Supabase table schema must already exist (apply via Supabase Studio SQL editor).
+ *   - SUPABASE_URL and SUPABASE_SERVICE_KEY must be set in backend/.env
  */
 import supabase from '../src/config/supabase.js';
 import bcrypt from 'bcryptjs';
