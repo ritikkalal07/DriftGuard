@@ -107,11 +107,11 @@ const ProjectsPage = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
-            <div key={project._id} className="card p-6 card-hover">
+            <div key={project.id} className="card p-6 card-hover">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <Link
-                    to={`/projects/${project._id}`}
+                    to={`/projects/${project.id}`}
                     className="text-lg font-semibold text-gray-900 dark:text-white hover:text-primary-600"
                   >
                     {project.name}
@@ -121,16 +121,16 @@ const ProjectsPage = () => {
                   </p>
                 </div>
                 <button
-                  onClick={() => handleDeleteProject(project._id)}
+                  onClick={() => handleDeleteProject(project.id)}
                   className="text-gray-400 hover:text-red-600 transition-colors"
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
               </div>
 
-              {project.repoUrl && (
+              {project.repository_url && (
                 <a
-                  href={project.repoUrl}
+                  href={project.repository_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-sm text-primary-600 hover:text-primary-700 mb-4"
@@ -140,13 +140,13 @@ const ProjectsPage = () => {
                 </a>
               )}
 
-              <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  <span className="font-medium">{project.stats?.totalScans || 0}</span> scans
-                </div>
-                <div className="text-xs text-gray-500">
-                  {formatDate(project.createdAt)}
-                </div>
+<div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                 <div className="text-sm text-gray-600 dark:text-gray-400">
+                   <span className="font-medium">0</span> scans
+                 </div>
+<div className="text-xs text-gray-500">
+                   {formatDate(project.created_at)}
+                 </div>
               </div>
             </div>
           ))}

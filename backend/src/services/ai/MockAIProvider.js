@@ -7,9 +7,9 @@ class MockAIProvider {
     this.name = 'Mock AI Provider';
   }
 
-  /**
-   * Analyze documentation drift between code and docs
-   */
+/**
+  * Analyze documentation drift between code and docs
+  */
   async analyzeDocumentationDrift(codeContext, docContext, diffContext) {
     // Simulate AI processing delay
     await this.delay(500);
@@ -54,9 +54,10 @@ class MockAIProvider {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  generateDriftAnalysis(codeContext, docContext, diffContext) {
-    const { changedFile, changedSymbols } = codeContext;
-    const { relatedDocs } = docContext;
+  generateDriftAnalysis(file, relatedDocs, diffContext) {
+    // file is an object with: path, symbols, additions, deletions, etc.
+    const changedFile = file.path || file.changedFile || 'unknown';
+    const changedSymbols = file.symbols || file.changedSymbols || [];
 
     // Determine drift status based on heuristics
     let driftStatus = 'possible';
@@ -110,7 +111,10 @@ class MockAIProvider {
       severityScore,
       confidenceScore,
       explanation,
-      affectedDocs: relatedDocs || []
+      affectedDocs: relatedDocs || [],
+      suggestedPatch: '',
+      reviewerComment: '',
+      suggestions: []
     };
   }
 

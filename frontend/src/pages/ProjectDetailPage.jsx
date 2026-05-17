@@ -69,7 +69,7 @@ const ProjectDetailPage = () => {
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{project.name}</h1>
             <p className="text-gray-600 dark:text-gray-400 mt-1">{project.description}</p>
           </div>
-          <Link to="/scan/new" state={{ projectId: project._id }} className="btn btn-primary">
+          <Link to="/scan/new" state={{ projectId: project.id }} className="btn btn-primary">
             <ScanSearch className="w-5 h-5 mr-2" />
             New Scan
           </Link>
@@ -118,21 +118,19 @@ const ProjectDetailPage = () => {
         ) : (
           <div className="space-y-3">
             {scans.map((scan) => (
-              <div key={scan._id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+              <div key={scan.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                 <div>
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    Scan #{scan._id.slice(-6)}
+                    Scan #{scan.id?.slice(-6) || '000'}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {formatDateTime(scan.createdAt)}
+                    {formatDateTime(scan.created_at)}
                   </p>
                 </div>
                 <div className="flex items-center space-x-3">
-                  {scan.summary && (
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
-                      {scan.summary.highDriftCount} high • {scan.summary.missingDocsCount} missing
-                    </div>
-                  )}
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                    {scan.high_drift_count || 0} high • {scan.missing_docs_count || 0} missing
+                  </div>
                   <span className={`badge ${scan.status === 'completed' ? 'badge-none' : 'bg-yellow-100 text-yellow-800'}`}>
                     {scan.status}
                   </span>

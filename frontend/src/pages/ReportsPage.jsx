@@ -98,25 +98,25 @@ const ReportsPage = () => {
         <div className="space-y-4">
           {reports.map((report) => (
             <Link
-              key={report._id}
-              to={`/reports/${report._id}`}
+              key={report.id}
+              to={`/reports/${report.id}`}
               className="card p-6 block hover:shadow-md transition-shadow"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
-                    <span className={`badge ${getDriftStatusColor(report.driftStatus)}`}>
-                      {getDriftStatusIcon(report.driftStatus)} {report.driftStatus}
+                    <span className={`badge ${getDriftStatusColor(report.drift_status)}`}>
+                      {getDriftStatusIcon(report.drift_status)} {report.drift_status}
                     </span>
                     <span className="text-sm text-gray-500">
-                      Severity: {report.severityScore}/100
+                      Severity: {report.severity_score}/100
                     </span>
                     <span className="text-sm text-gray-500">
-                      Confidence: {report.confidenceScore}/100
+                      Confidence: {report.confidence_score}/100
                     </span>
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                    {report.changedFile}
+                    {report.changed_file}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
                     {report.explanation}
@@ -124,11 +124,11 @@ const ReportsPage = () => {
                   <div className="flex items-center mt-3 space-x-4 text-sm text-gray-500">
                     <span>{report.projectId?.name}</span>
                     <span>•</span>
-                    <span>{formatDateTime(report.createdAt)}</span>
-                    {report.changedSymbols?.length > 0 && (
+                    <span>{formatDateTime(report.created_at)}</span>
+                    {report.changed_symbols?.length > 0 && (
                       <>
                         <span>•</span>
-                        <span>{report.changedSymbols.length} symbols changed</span>
+                        <span>{report.changed_symbols.length} symbols changed</span>
                       </>
                     )}
                   </div>

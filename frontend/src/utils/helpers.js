@@ -52,11 +52,17 @@ export const getRelativeTime = (date) => {
  * Get drift status color
  */
 export const getDriftStatusColor = (status) => {
+  // Handle snake_case from backend
+  const normalizedStatus = status?.replace(/_/g, '_');
   const colors = {
     none: 'text-green-600 bg-green-50 dark:bg-green-900/20',
+    no_drift: 'text-green-600 bg-green-50 dark:bg-green-900/20',
     possible: 'text-yellow-600 bg-yellow-50 dark:bg-yellow-900/20',
+    possible_drift: 'text-yellow-600 bg-yellow-50 dark:bg-yellow-900/20',
     high: 'text-red-600 bg-red-50 dark:bg-red-900/20',
+    high_drift: 'text-red-600 bg-red-50 dark:bg-red-900/20',
     missing: 'text-purple-600 bg-purple-50 dark:bg-purple-900/20',
+    missing_docs: 'text-purple-600 bg-purple-50 dark:bg-purple-900/20',
   };
   return colors[status] || colors.possible;
 };
@@ -67,9 +73,13 @@ export const getDriftStatusColor = (status) => {
 export const getDriftStatusIcon = (status) => {
   const icons = {
     none: '✓',
+    no_drift: '✓',
     possible: '⚠️',
+    possible_drift: '⚠️',
     high: '🚨',
+    high_drift: '🚨',
     missing: '📝',
+    missing_docs: '📝',
   };
   return icons[status] || '•';
 };

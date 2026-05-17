@@ -9,74 +9,74 @@ class DriftDetectionService {
    */
   async analyzeDiff(diffContent, projectId, scanId) {
     try {
-      // Parse the diff
-      const parsedDiff = DiffParser.parse(diffContent);
-      
-      const results = {
-        totalFiles: parsedDiff.files.length,
-        highDriftCount: 0,
-        mediumDriftCount: 0,
-        lowDriftCount: 0,
-        noDriftCount: 0,
-        missingDocsCount: 0,
-        reports: []
-      };
+// Parse the diff
+       const parsedDiff = DiffParser.parseDiff(diffContent);
+       
+       const results = {
+         totalFiles: parsedDiff.files.length,
+         highDriftCount: 0,
+         mediumDriftCount: 0,
+         lowDriftCount: 0,
+         noDriftCount: 0,
+         missingDocsCount: 0,
+         reports: []
+       };
 
-      // Process each changed file
-      for (const file of parsedDiff.files) {
-        // Match related documentation
-        const relatedDocs = DocMatcher.findRelatedDocs(file);
-        
-        // Analyze drift for each file
-        const driftAnalysis = await this.analyzeFileDrift(file, relatedDocs);
-        
-        // Create drift report
-        const report = await createDriftReport({
-          scan_id: scanId,
-          project_id: projectId,
-          changed_file: file.path,
-          changed_symbols: file.symbols || [],
-          related_docs: relatedDocs,
-          drift_status: driftAnalysis.status,
-          severity_score: driftAnalysis.severity,
-          confidence_score: driftAnalysis.confidence,
-          explanation: driftAnalysis.explanation,
-          suggested_patch: driftAnalysis.suggestedPatch,
-          reviewer_comment: driftAnalysis.reviewerComment,
-          status: 'pending'
-        });
+       // Process each changed file
+       for (const file of parsedDiff.files) {
+         // Match related documentation
+         const relatedDocs = DocMatcher.findRelatedDocs(file.path, file.symbols || []);
+         
+         // Analyze drift for each file
+         const driftAnalysis = await this.analyzeFileDrift(file, relatedDocs);
+         
+         // Create drift report
+         const report = await createDriftReport({
+           scan_id: scanId,
+           project_id: projectId,
+           changed_file: file.path,
+           changed_symbols: file.symbols || [],
+           related_docs: relatedDocs,
+           drift_status: driftAnalysis.status,
+           severity_score: driftAnalysis.severity,
+           confidence_score: driftAnalysis.confidence,
+           explanation: driftAnalysis.explanation,
+           suggested_patch: driftAnalysis.suggestedPatch,
+           reviewer_comment: driftAnalysis.reviewerComment,
+           status: 'pending'
+         });
 
-        // Create suggestions if available
-        if (driftAnalysis.suggestions && driftAnalysis.suggestions.length > 0) {
-          for (const suggestion of driftAnalysis.suggestions) {
-            await createSuggestion({
-              report_id: report.id,
-              suggestion_type: suggestion.type,
-              original_content: suggestion.original,
-              suggested_content: suggestion.suggested,
-              explanation: suggestion.explanation,
-              status: 'pending'
-            });
+         // Create suggestions if available
+         if (driftAnalysis.suggestions && driftAnalysis.suggestions.length > 0) {
+           for (const suggestion of driftAnalysis.suggestions) {
+             await createSuggestion({
+               report_id: report.id,
+               suggestion_type: suggestion.type,
+               original_content: suggestion.original,
+               suggested_content: suggestion.suggested,
+               explanation: suggestion.explanation,
+               status: 'pending'
+             });
+           }
+         }
+
+// Update counts
+          switch (driftAnalysis.status) {
+            case 'high_drift':
+              results.highDriftCount++;
+              break;
+            case 'possible_drift':
+              results.mediumDriftCount++;
+              break;
+            case 'no_drift':
+              results.noDriftCount++;
+              break;
+            case 'missing_docs':
+              results.missingDocsCount++;
+              break;
           }
-        }
 
-        // Update counts
-        switch (driftAnalysis.status) {
-          case 'high_drift':
-            results.highDriftCount++;
-            break;
-          case 'possible_drift':
-            results.mediumDriftCount++;
-            break;
-          case 'no_drift':
-            results.noDriftCount++;
-            break;
-          case 'missing_docs':
-            results.missingDocsCount++;
-            break;
-        }
-
-        results.reports.push(report);
+          results.reports.push(report);
       }
 
       return results;
@@ -108,7 +108,7 @@ class DriftDetectionService {
       const aiAnalysis = await AIService.analyzeDocumentationDrift(
         file,
         relatedDocs,
-        file.diff
+        ''
       );
 
       return {

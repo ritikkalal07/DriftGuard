@@ -45,13 +45,12 @@ const NewScanPage = () => {
     try {
       const response = await scansAPI.create({
         projectId: selectedProject,
-        diffContent,
-        type: 'upload',
+        diffContent: diffContent,
       });
 
       if (response.success) {
         toast.success('Scan started! Processing...');
-        navigate(`/reports?scanId=${response.data.scan._id}`);
+        navigate(`/reports?scanId=${response.data.scan.id}`);
       }
     } catch (error) {
       toast.error('Failed to create scan');
@@ -102,7 +101,7 @@ index 1234567..abcdefg 100644
           >
             <option value="">Choose a project...</option>
             {projects.map((project) => (
-              <option key={project._id} value={project._id}>
+              <option key={project.id} value={project.id}>
                 {project.name}
               </option>
             ))}

@@ -35,9 +35,17 @@ export const getDashboard = async (req, res, next) => {
     res.json({
       success: true,
       data: {
-        stats,
+        stats: {
+          totalScans: stats.totalScans || 0,
+          highDriftCount: stats.highDriftCount || 0,
+          highDriftFiles: stats.highDriftCount || 0,
+          missingDocsCount: stats.missingDocsCount || 0,
+          missingDocs: stats.missingDocsCount || 0,
+          resolvedReports: 0
+        },
         recentScans: recentScans || [],
-        recentReports: recentReports || []
+        recentReports: recentReports || [],
+        highPriorityReports: recentReports?.filter(r => r.drift_status === 'high_drift') || []
       }
     });
   } catch (error) {
