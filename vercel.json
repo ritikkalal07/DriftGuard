@@ -17,8 +17,8 @@
       }
     }
   ],
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.js" },
-    { "source": "/(?!assets/|vite\\.svg|favicon\\.ico)(.*)", "destination": "/index.html" }
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/index.js" },
+    { "src": "/(?!assets/|vite\\.svg|favicon\\.ico)(.*)", "dest": "/index.html" }
   ]
 }
